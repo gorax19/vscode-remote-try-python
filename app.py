@@ -1,11 +1,16 @@
-#-----------------------------------------------------------------------------------------
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License. See LICENSE in the project root for license information.
-#-----------------------------------------------------------------------------------------
+import requests
+import json
 
-from flask import Flask
-app = Flask(__name__)
+# Spécifier le nom du propriétaire du dépôt et le nom du dépôt
+owner = "freqtrade"
+repo = "freqtrade"
 
-@app.route("/")
-def hello():
-    return app.send_static_file("index.html")
+# Envoyer une requête HTTP GET à l'API GitHub pour récupérer les informations du dépôt
+response = requests.get(f"https://api.github.com/repos/{owner}/{repo}")
+
+# Extraire le nombre d'étoiles à partir de la réponse JSON
+data = json.loads(response.content)
+stars = data["stargazers_count"]
+
+# Afficher le nombre d'étoiles
+print(f"Le dépôt {owner}/{repo} a {stars} étoiles.")
